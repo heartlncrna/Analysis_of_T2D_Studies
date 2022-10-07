@@ -1,0 +1,603 @@
+# Download SRA files to ~./sra_files/ and extract FASTQ files
+# "fasterq-dump" version 2.10.5
+# Ran on 09/11/2022
+
+prefetch --option-file SRR_Acc_List.txt
+
+fasterq-dump --split-files ./SRR14711019/SRR14711019.sra
+fasterq-dump --split-files ./SRR14711021/SRR14711021.sra
+fasterq-dump --split-files ./SRR14711023/SRR14711023.sra
+fasterq-dump --split-files ./SRR14711024/SRR14711024.sra
+fasterq-dump --split-files ./SRR14711026/SRR14711026.sra
+fasterq-dump --split-files ./SRR14711027/SRR14711027.sra
+fasterq-dump --split-files ./SRR14711028/SRR14711028.sra
+fasterq-dump --split-files ./SRR14711033/SRR14711033.sra
+fasterq-dump --split-files ./SRR14711015/SRR14711015.sra
+fasterq-dump --split-files ./SRR14711016/SRR14711016.sra
+fasterq-dump --split-files ./SRR14711017/SRR14711017.sra
+fasterq-dump --split-files ./SRR14711031/SRR14711031.sra
+fasterq-dump --split-files ./SRR14711032/SRR14711032.sra
+fasterq-dump --split-files ./SRR14711018/SRR14711018.sra
+fasterq-dump --split-files ./SRR14711020/SRR14711020.sra
+fasterq-dump --split-files ./SRR14711022/SRR14711022.sra
+fasterq-dump --split-files ./SRR14711025/SRR14711025.sra
+fasterq-dump --split-files ./SRR14711029/SRR14711029.sra
+fasterq-dump --split-files ./SRR14711030/SRR14711030.sra
+fasterq-dump --split-files ./SRR14711034/SRR14711034.sra
+
+
+
+# Download the genome assembly and GTF file for human
+# Use GRCh38.107
+
+wget https://ftp.ensembl.org/pub/release-107/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+wget https://ftp.ensembl.org/pub/release-107/gtf/homo_sapiens/Homo_sapiens.GRCh38.107.gtf.gz
+
+# Expand the GZ files.
+gunzip *.gz
+
+
+# Make index file for STAR aligner.
+STAR --runMode genomeGenerate --runThreadN 8 --genomeDir ./ --genomeFastaFiles Homo_sapiens.GRCh38.dna.primary_assembly.fa --sjdbGTFfile Homo_sapiens.GRCh38.107.gtf
+
+
+# Run FASTP to perform read filtrations. 
+# version: fastp 0.21.0
+# Ran on 09/11/2022
+
+fastp -i SRR14711019.sra.fastq -o SRR14711019.trimmed.fastq -h SRR14711019-fastp.html -j SRR14711019_fastp.json
+fastp -i SRR14711021.sra.fastq -o SRR14711021.trimmed.fastq -h SRR14711021-fastp.html -j SRR14711021_fastp.json
+fastp -i SRR14711023.sra.fastq -o SRR14711023.trimmed.fastq -h SRR14711023-fastp.html -j SRR14711023_fastp.json
+fastp -i SRR14711024.sra.fastq -o SRR14711024.trimmed.fastq -h SRR14711024-fastp.html -j SRR14711024_fastp.json
+fastp -i SRR14711026.sra.fastq -o SRR14711026.trimmed.fastq -h SRR14711026-fastp.html -j SRR14711026_fastp.json
+fastp -i SRR14711027.sra.fastq -o SRR14711027.trimmed.fastq -h SRR14711027-fastp.html -j SRR14711027_fastp.json
+fastp -i SRR14711028.sra.fastq -o SRR14711028.trimmed.fastq -h SRR14711028-fastp.html -j SRR14711028_fastp.json
+fastp -i SRR14711033.sra.fastq -o SRR14711033.trimmed.fastq -h SRR14711033-fastp.html -j SRR14711033_fastp.json
+fastp -i SRR14711015.sra.fastq -o SRR14711015.trimmed.fastq -h SRR14711015-fastp.html -j SRR14711015_fastp.json
+fastp -i SRR14711016.sra.fastq -o SRR14711016.trimmed.fastq -h SRR14711016-fastp.html -j SRR14711016_fastp.json
+fastp -i SRR14711017.sra.fastq -o SRR14711017.trimmed.fastq -h SRR14711017-fastp.html -j SRR14711017_fastp.json
+fastp -i SRR14711031.sra.fastq -o SRR14711031.trimmed.fastq -h SRR14711031-fastp.html -j SRR14711031_fastp.json
+fastp -i SRR14711032.sra.fastq -o SRR14711032.trimmed.fastq -h SRR14711032-fastp.html -j SRR14711032_fastp.json
+fastp -i SRR14711018.sra.fastq -o SRR14711018.trimmed.fastq -h SRR14711018-fastp.html -j SRR14711018_fastp.json
+fastp -i SRR14711020.sra.fastq -o SRR14711020.trimmed.fastq -h SRR14711020-fastp.html -j SRR14711020_fastp.json
+fastp -i SRR14711022.sra.fastq -o SRR14711022.trimmed.fastq -h SRR14711022-fastp.html -j SRR14711022_fastp.json
+fastp -i SRR14711025.sra.fastq -o SRR14711025.trimmed.fastq -h SRR14711025-fastp.html -j SRR14711025_fastp.json
+fastp -i SRR14711029.sra.fastq -o SRR14711029.trimmed.fastq -h SRR14711029-fastp.html -j SRR14711029_fastp.json
+fastp -i SRR14711030.sra.fastq -o SRR14711030.trimmed.fastq -h SRR14711030-fastp.html -j SRR14711030_fastp.json
+fastp -i SRR14711034.sra.fastq -o SRR14711034.trimmed.fastq -h SRR14711034-fastp.html -j SRR14711034_fastp.json
+
+
+
+# Align the sequence reads to the genome using STAR
+# version STAR             020201
+# Ran on 09/11/2022
+
+mkdir sra_files
+mv SRR* ./sra_files/
+
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711019.trimmed.fastq --outFileNamePrefix SRR14711019_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711021.trimmed.fastq --outFileNamePrefix SRR14711021_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711023.trimmed.fastq --outFileNamePrefix SRR14711023_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711024.trimmed.fastq --outFileNamePrefix SRR14711024_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711026.trimmed.fastq --outFileNamePrefix SRR14711026_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711027.trimmed.fastq --outFileNamePrefix SRR14711027_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711028.trimmed.fastq --outFileNamePrefix SRR14711028_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711033.trimmed.fastq --outFileNamePrefix SRR14711033_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711015.trimmed.fastq --outFileNamePrefix SRR14711015_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711016.trimmed.fastq --outFileNamePrefix SRR14711016_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711017.trimmed.fastq --outFileNamePrefix SRR14711017_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711031.trimmed.fastq --outFileNamePrefix SRR14711031_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711032.trimmed.fastq --outFileNamePrefix SRR14711032_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711018.trimmed.fastq --outFileNamePrefix SRR14711018_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711020.trimmed.fastq --outFileNamePrefix SRR14711020_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711022.trimmed.fastq --outFileNamePrefix SRR14711022_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711025.trimmed.fastq --outFileNamePrefix SRR14711025_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711029.trimmed.fastq --outFileNamePrefix SRR14711029_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711030.trimmed.fastq --outFileNamePrefix SRR14711030_
+STAR --runMode alignReads --runThreadN 8 --genomeDir /references/Human/GRCh38.107/ --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --outReadsUnmapped Fastx --sjdbGTFfile /references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf --readFilesIn ./sra_files/SRR14711034.trimmed.fastq --outFileNamePrefix SRR14711034_
+
+
+
+### All_Samples ###
+# Generate a gene matrix
+# Stranded
+paste SRR14711019_ReadsPerGene.out.tab SRR14711027_ReadsPerGene.out.tab SRR14711015_ReadsPerGene.out.tab SRR14711029_ReadsPerGene.out.tab SRR14711028_ReadsPerGene.out.tab SRR14711016_ReadsPerGene.out.tab SRR14711020_ReadsPerGene.out.tab SRR14711030_ReadsPerGene.out.tab SRR14711021_ReadsPerGene.out.tab SRR14711023_ReadsPerGene.out.tab SRR14711033_ReadsPerGene.out.tab SRR14711017_ReadsPerGene.out.tab SRR14711031_ReadsPerGene.out.tab SRR14711025_ReadsPerGene.out.tab SRR14711024_ReadsPerGene.out.tab SRR14711026_ReadsPerGene.out.tab SRR14711032_ReadsPerGene.out.tab SRR14711018_ReadsPerGene.out.tab SRR14711022_ReadsPerGene.out.tab SRR14711034_ReadsPerGene.out.tab | cut -f1,4,8,12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,72,76,80,84 | tail -n +5 > tmpfile
+
+cat tmpfile | sed "s/^gene://" >gene_count_Stranded-All_Samples.txt
+
+
+# Run edgeR on R to derive differentially expressed genes
+library (edgeR)
+library(GenomicFeatures)
+
+x <- read.delim("gene_count_Stranded-All_Samples.txt", header=F, row.names=1)
+colnames(x)<-c("Control_Unstimulated.1","Control_Unstimulated.2","Control_Unstimulated.3","Control_Unstimulated.4","Control_LPS.1","Control_LPS.2","Control_LPS.3","Control_LPS.4","Diabetic_Unstimulated.1","Diabetic_Unstimulated.2","Diabetic_Unstimulated.3","Diabetic_Unstimulated.4","Diabetic_Unstimulated.5","Diabetic_Unstimulated.6","Diabetic_LPS.1","Diabetic_LPS.2","Diabetic_LPS.3","Diabetic_LPS.4","Diabetic_LPS.5","Diabetic_LPS.6")
+group <- factor(c(1,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4))
+y <- DGEList(counts=x,group=group)
+y <- calcNormFactors(y)
+
+# Calculate CPM (counts per million) values
+d <-cpm(y)
+
+# Write out the CPM values for each gene into a table
+write.table(d, "GSE175988-PBMC-Stranded-All_Samples-CPM.txt", sep="\t")
+
+# Calculating RPKM
+# https://research.stowers.org/cws/CompGenomics/Projects/edgeR.html
+
+# give the gene lengths
+gtf_file <- "/references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf"
+txdb <- makeTxDbFromGFF(file=gtf_file)
+tx_by_gene <- transcriptsBy(txdb, 'gene')
+geneLengths <- sum(width(reduce(tx_by_gene)))
+
+# using our DGE list object from above
+iv <- match(rownames(x), names(geneLengths))
+
+fpkm <- rpkm(x, geneLengths[iv])
+
+# Write out the RPKM values for each gene into a table
+write.table(fpkm, "GSE175988-PBMC-Stranded-All_Samples-RPKM.txt", sep="\t")
+
+
+# Calculate TPM from RPKM
+# http://luisvalesilva.com/datasimple/rna-seq_units.html
+tpm_from_rpkm <- function(x){
+	rpkm.sum <-colSums(x)
+	return(t(t(x) / (1e-06 * rpkm.sum)))
+}
+
+tpm <- tpm_from_rpkm(fpkm)
+
+# Write out the TPM values for each gene into a table
+write.table(tpm, "GSE175988-PBMC-Stranded-All_Samples-TPM.txt", sep="\t")
+
+q()
+n
+
+
+
+
+### Control-LPS_vs_Control-Unstimulated ###
+# Generate a gene matrix
+# Stranded
+paste SRR14711019_ReadsPerGene.out.tab SRR14711027_ReadsPerGene.out.tab SRR14711015_ReadsPerGene.out.tab SRR14711029_ReadsPerGene.out.tab SRR14711028_ReadsPerGene.out.tab SRR14711016_ReadsPerGene.out.tab SRR14711020_ReadsPerGene.out.tab SRR14711030_ReadsPerGene.out.tab  | cut -f1,4,8,12,16,20,24,28,32| tail -n +5 > tmpfile
+
+cat tmpfile | sed "s/^gene://" >gene_count_Stranded-Control-LPS_vs_Control-Unstimulated.txt
+
+
+# Run edgeR on R to derive differentially expressed genes
+library (edgeR)
+library(GenomicFeatures)
+
+x <- read.delim("gene_count_Stranded-Control-LPS_vs_Control-Unstimulated.txt", header=F, row.names=1)
+colnames(x)<-c("Control_Unstimulated.1","Control_Unstimulated.2","Control_Unstimulated.3","Control_Unstimulated.4","Control_LPS.1","Control_LPS.2","Control_LPS.3","Control_LPS.4")
+group <- factor(c(1,1,1,1,2,2,2,2))
+y <- DGEList(counts=x,group=group)
+y <- calcNormFactors(y)
+
+# Calculate CPM (counts per million) values
+d <-cpm(y)
+
+# Write out the CPM values for each gene into a table
+write.table(d, "GSE175988-PBMC-Stranded-Control-LPS_vs_Control-Unstimulated-CPM.txt", sep="\t")
+
+# Calculating RPKM
+# https://research.stowers.org/cws/CompGenomics/Projects/edgeR.html
+
+# give the gene lengths
+gtf_file <- "/references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf"
+txdb <- makeTxDbFromGFF(file=gtf_file)
+tx_by_gene <- transcriptsBy(txdb, 'gene')
+geneLengths <- sum(width(reduce(tx_by_gene)))
+
+# using our DGE list object from above
+iv <- match(rownames(x), names(geneLengths))
+
+fpkm <- rpkm(x, geneLengths[iv])
+
+# Write out the RPKM values for each gene into a table
+write.table(fpkm, "GSE175988-PBMC-Stranded-Control-LPS_vs_Control-Unstimulated-RPKM.txt", sep="\t")
+
+
+# Calculate TPM from RPKM
+# http://luisvalesilva.com/datasimple/rna-seq_units.html
+tpm_from_rpkm <- function(x){
+	rpkm.sum <-colSums(x)
+	return(t(t(x) / (1e-06 * rpkm.sum)))
+}
+
+tpm <- tpm_from_rpkm(fpkm)
+
+# Write out the TPM values for each gene into a table
+write.table(tpm, "GSE175988-PBMC-Stranded-Control-LPS_vs_Control-Unstimulated-TPM.txt", sep="\t")
+
+
+# Calculate differentially expressed genes
+design<-model.matrix(~0+group)
+y <- estimateGLMCommonDisp(y,design)
+y <- estimateGLMTrendedDisp(y,design)
+y <- estimateGLMTagwiseDisp(y,design)
+fit<-glmFit(y,design)
+lrt.2vs1 <- glmLRT(fit, contrast=c(-1,1))
+
+# To get out FDR
+out <- topTags(lrt.2vs1, n = "Inf")$table
+
+# Write out the results
+write.table(out, "GSE175988-PBMC-Stranded-Control-LPS_vs_Control-Unstimulated-Ratio.txt", sep="\t")
+
+q()
+n
+
+
+
+### Diabetic_Unstimulated_vs_Control_Unstimulated ###
+# Generate a gene matrix
+# Stranded
+paste SRR14711019_ReadsPerGene.out.tab SRR14711027_ReadsPerGene.out.tab SRR14711015_ReadsPerGene.out.tab SRR14711029_ReadsPerGene.out.tab SRR14711021_ReadsPerGene.out.tab SRR14711023_ReadsPerGene.out.tab SRR14711033_ReadsPerGene.out.tab SRR14711017_ReadsPerGene.out.tab SRR14711031_ReadsPerGene.out.tab SRR14711025_ReadsPerGene.out.tab | cut -f1,4,8,12,16,20,24,28,32,36,40 | tail -n +5 > tmpfile
+
+cat tmpfile | sed "s/^gene://" >gene_count_Stranded-Diabetic_Unstimulated_vs_Control_Unstimulated.txt
+
+
+# Run edgeR on R to derive differentially expressed genes
+library (edgeR)
+library(GenomicFeatures)
+
+x <- read.delim("gene_count_Stranded-Diabetic_Unstimulated_vs_Control_Unstimulated.txt", header=F, row.names=1)
+colnames(x)<-c("Control_Unstimulated.1","Control_Unstimulated.2","Control_Unstimulated.3","Control_Unstimulated.4","Diabetic_Unstimulated.1","Diabetic_Unstimulated.2","Diabetic_Unstimulated.3","Diabetic_Unstimulated.4","Diabetic_Unstimulated.5","Diabetic_Unstimulated.6")
+group <- factor(c(1,1,1,1,2,2,2,2,2,2))
+y <- DGEList(counts=x,group=group)
+y <- calcNormFactors(y)
+
+# Calculate CPM (counts per million) values
+d <-cpm(y)
+
+# Write out the CPM values for each gene into a table
+write.table(d, "GSE175988-PBMC-Stranded-Diabetic_Unstimulated_vs_Control_Unstimulated-CPM.txt", sep="\t")
+
+# Calculating RPKM
+# https://research.stowers.org/cws/CompGenomics/Projects/edgeR.html
+
+# give the gene lengths
+gtf_file <- "/references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf"
+txdb <- makeTxDbFromGFF(file=gtf_file)
+tx_by_gene <- transcriptsBy(txdb, 'gene')
+geneLengths <- sum(width(reduce(tx_by_gene)))
+
+# using our DGE list object from above
+iv <- match(rownames(x), names(geneLengths))
+
+fpkm <- rpkm(x, geneLengths[iv])
+
+# Write out the RPKM values for each gene into a table
+write.table(fpkm, "GSE175988-PBMC-Stranded-Diabetic_Unstimulated_vs_Control_Unstimulated-RPKM.txt", sep="\t")
+
+
+# Calculate TPM from RPKM
+# http://luisvalesilva.com/datasimple/rna-seq_units.html
+tpm_from_rpkm <- function(x){
+	rpkm.sum <-colSums(x)
+	return(t(t(x) / (1e-06 * rpkm.sum)))
+}
+
+tpm <- tpm_from_rpkm(fpkm)
+
+# Write out the TPM values for each gene into a table
+write.table(tpm, "GSE175988-PBMC-Stranded-Diabetic_Unstimulated_vs_Control_Unstimulated-TPM.txt", sep="\t")
+
+
+# Calculate differentially expressed genes
+design<-model.matrix(~0+group)
+y <- estimateGLMCommonDisp(y,design)
+y <- estimateGLMTrendedDisp(y,design)
+y <- estimateGLMTagwiseDisp(y,design)
+fit<-glmFit(y,design)
+lrt.2vs1 <- glmLRT(fit, contrast=c(-1,1))
+
+# To get out FDR
+out <- topTags(lrt.2vs1, n = "Inf")$table
+
+# Write out the results
+write.table(out, "GSE175988-PBMC-Stranded-Diabetic_Unstimulated_vs_Control_Unstimulated-Ratio.txt", sep="\t")
+
+q()
+n
+
+
+
+### Diabetic_LPS_vs_Control_Unstimulated ###
+# Generate a gene matrix
+# Stranded
+paste SRR14711019_ReadsPerGene.out.tab SRR14711027_ReadsPerGene.out.tab SRR14711015_ReadsPerGene.out.tab SRR14711029_ReadsPerGene.out.tab SRR14711024_ReadsPerGene.out.tab SRR14711026_ReadsPerGene.out.tab SRR14711032_ReadsPerGene.out.tab SRR14711018_ReadsPerGene.out.tab SRR14711022_ReadsPerGene.out.tab SRR14711034_ReadsPerGene.out.tab | cut -f1,4,8,12,16,20,24,28,32,36,40 | tail -n +5 > tmpfile
+
+cat tmpfile | sed "s/^gene://" >gene_count_Stranded-Diabetic_LPS_vs_Control_Unstimulated.txt
+
+
+# Run edgeR on R to derive differentially expressed genes
+library (edgeR)
+library(GenomicFeatures)
+
+x <- read.delim("gene_count_Stranded-Diabetic_LPS_vs_Control_Unstimulated.txt", header=F, row.names=1)
+colnames(x)<-c("Control_Unstimulated.1","Control_Unstimulated.2","Control_Unstimulated.3","Control_Unstimulated.4","Diabetic_LPS.1","Diabetic_LPS.2","Diabetic_LPS.3","Diabetic_LPS.4","Diabetic_LPS.5","Diabetic_LPS.6")
+group <- factor(c(1,1,1,1,2,2,2,2,2,2))
+y <- DGEList(counts=x,group=group)
+y <- calcNormFactors(y)
+
+# Calculate CPM (counts per million) values
+d <-cpm(y)
+
+# Write out the CPM values for each gene into a table
+write.table(d, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Control_Unstimulated-CPM.txt", sep="\t")
+
+# Calculating RPKM
+# https://research.stowers.org/cws/CompGenomics/Projects/edgeR.html
+
+# give the gene lengths
+gtf_file <- "/references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf"
+txdb <- makeTxDbFromGFF(file=gtf_file)
+tx_by_gene <- transcriptsBy(txdb, 'gene')
+geneLengths <- sum(width(reduce(tx_by_gene)))
+
+# using our DGE list object from above
+iv <- match(rownames(x), names(geneLengths))
+
+fpkm <- rpkm(x, geneLengths[iv])
+
+# Write out the RPKM values for each gene into a table
+write.table(fpkm, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Control_Unstimulated-RPKM.txt", sep="\t")
+
+
+# Calculate TPM from RPKM
+# http://luisvalesilva.com/datasimple/rna-seq_units.html
+tpm_from_rpkm <- function(x){
+	rpkm.sum <-colSums(x)
+	return(t(t(x) / (1e-06 * rpkm.sum)))
+}
+
+tpm <- tpm_from_rpkm(fpkm)
+
+# Write out the TPM values for each gene into a table
+write.table(tpm, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Control_Unstimulated-TPM.txt", sep="\t")
+
+
+# Calculate differentially expressed genes
+design<-model.matrix(~0+group)
+y <- estimateGLMCommonDisp(y,design)
+y <- estimateGLMTrendedDisp(y,design)
+y <- estimateGLMTagwiseDisp(y,design)
+fit<-glmFit(y,design)
+lrt.2vs1 <- glmLRT(fit, contrast=c(-1,1))
+
+# To get out FDR
+out <- topTags(lrt.2vs1, n = "Inf")$table
+
+# Write out the results
+write.table(out, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Control_Unstimulated-Ratio.txt", sep="\t")
+
+q()
+n
+
+
+
+### Diabetic_Unstimulated_vs_Control_LPS ###
+# Generate a gene matrix
+# Stranded
+paste SRR14711028_ReadsPerGene.out.tab SRR14711016_ReadsPerGene.out.tab SRR14711020_ReadsPerGene.out.tab SRR14711030_ReadsPerGene.out.tab SRR14711021_ReadsPerGene.out.tab SRR14711023_ReadsPerGene.out.tab SRR14711033_ReadsPerGene.out.tab SRR14711017_ReadsPerGene.out.tab SRR14711031_ReadsPerGene.out.tab SRR14711025_ReadsPerGene.out.tab | cut -f1,4,8,12,16,20,24,28,32,36,40 | tail -n +5 > tmpfile
+
+cat tmpfile | sed "s/^gene://" >gene_count_Stranded-Diabetic_Unstimulated_vs_Control_LPS.txt
+
+
+# Run edgeR on R to derive differentially expressed genes
+library (edgeR)
+library(GenomicFeatures)
+
+x <- read.delim("gene_count_Stranded-Diabetic_Unstimulated_vs_Control_LPS.txt", header=F, row.names=1)
+colnames(x)<-c("Control_LPS.1","Control_LPS.2","Control_LPS.3","Control_LPS.4","Diabetic_Unstimulated.1","Diabetic_Unstimulated.2","Diabetic_Unstimulated.3","Diabetic_Unstimulated.4","Diabetic_Unstimulated.5","Diabetic_Unstimulated.6")
+group <- factor(c(1,1,1,1,2,2,2,2,2,2))
+y <- DGEList(counts=x,group=group)
+y <- calcNormFactors(y)
+
+# Calculate CPM (counts per million) values
+d <-cpm(y)
+
+# Write out the CPM values for each gene into a table
+write.table(d, "GSE175988-PBMC-Stranded-Diabetic_Unstimulated_vs_Control_LPS-CPM.txt", sep="\t")
+
+# Calculating RPKM
+# https://research.stowers.org/cws/CompGenomics/Projects/edgeR.html
+
+# give the gene lengths
+gtf_file <- "/references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf"
+txdb <- makeTxDbFromGFF(file=gtf_file)
+tx_by_gene <- transcriptsBy(txdb, 'gene')
+geneLengths <- sum(width(reduce(tx_by_gene)))
+
+# using our DGE list object from above
+iv <- match(rownames(x), names(geneLengths))
+
+fpkm <- rpkm(x, geneLengths[iv])
+
+# Write out the RPKM values for each gene into a table
+write.table(fpkm, "GSE175988-PBMC-Stranded-Diabetic_Unstimulated_vs_Control_LPS-RPKM.txt", sep="\t")
+
+
+# Calculate TPM from RPKM
+# http://luisvalesilva.com/datasimple/rna-seq_units.html
+tpm_from_rpkm <- function(x){
+	rpkm.sum <-colSums(x)
+	return(t(t(x) / (1e-06 * rpkm.sum)))
+}
+
+tpm <- tpm_from_rpkm(fpkm)
+
+# Write out the TPM values for each gene into a table
+write.table(tpm, "GSE175988-PBMC-Stranded-Diabetic_Unstimulated_vs_Control_LPS-TPM.txt", sep="\t")
+
+
+# Calculate differentially expressed genes
+design<-model.matrix(~0+group)
+y <- estimateGLMCommonDisp(y,design)
+y <- estimateGLMTrendedDisp(y,design)
+y <- estimateGLMTagwiseDisp(y,design)
+fit<-glmFit(y,design)
+lrt.2vs1 <- glmLRT(fit, contrast=c(-1,1))
+
+# To get out FDR
+out <- topTags(lrt.2vs1, n = "Inf")$table
+
+# Write out the results
+write.table(out, "GSE175988-PBMC-Stranded-Diabetic_Unstimulated_vs_Control_LPS-Ratio.txt", sep="\t")
+
+q()
+n
+
+
+
+### Diabetic_LPS_vs_Control_LPS ###
+# Generate a gene matrix
+# Stranded
+paste SRR14711028_ReadsPerGene.out.tab SRR14711016_ReadsPerGene.out.tab SRR14711020_ReadsPerGene.out.tab SRR14711030_ReadsPerGene.out.tab SRR14711024_ReadsPerGene.out.tab SRR14711026_ReadsPerGene.out.tab SRR14711032_ReadsPerGene.out.tab SRR14711018_ReadsPerGene.out.tab SRR14711022_ReadsPerGene.out.tab SRR14711034_ReadsPerGene.out.tab | cut -f1,4,8,12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,72,76,80,84 | tail -n +5 > tmpfile
+
+cat tmpfile | sed "s/^gene://" >gene_count_Stranded-Diabetic_LPS_vs_Control_LPS.txt
+
+
+# Run edgeR on R to derive differentially expressed genes
+library (edgeR)
+library(GenomicFeatures)
+
+x <- read.delim("gene_count_Stranded-Diabetic_LPS_vs_Control_LPS.txt", header=F, row.names=1)
+colnames(x)<-c("Control_LPS.1","Control_LPS.2","Control_LPS.3","Control_LPS.4","Diabetic_LPS.1","Diabetic_LPS.2","Diabetic_LPS.3","Diabetic_LPS.4","Diabetic_LPS.5","Diabetic_LPS.6")
+group <- factor(c(1,1,1,1,2,2,2,2,2,2))
+y <- DGEList(counts=x,group=group)
+y <- calcNormFactors(y)
+
+# Calculate CPM (counts per million) values
+d <-cpm(y)
+
+# Write out the CPM values for each gene into a table
+write.table(d, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Control_LPS-CPM.txt", sep="\t")
+
+# Calculating RPKM
+# https://research.stowers.org/cws/CompGenomics/Projects/edgeR.html
+
+# give the gene lengths
+gtf_file <- "/references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf"
+txdb <- makeTxDbFromGFF(file=gtf_file)
+tx_by_gene <- transcriptsBy(txdb, 'gene')
+geneLengths <- sum(width(reduce(tx_by_gene)))
+
+# using our DGE list object from above
+iv <- match(rownames(x), names(geneLengths))
+
+fpkm <- rpkm(x, geneLengths[iv])
+
+# Write out the RPKM values for each gene into a table
+write.table(fpkm, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Control_LPS-RPKM.txt", sep="\t")
+
+
+# Calculate TPM from RPKM
+# http://luisvalesilva.com/datasimple/rna-seq_units.html
+tpm_from_rpkm <- function(x){
+	rpkm.sum <-colSums(x)
+	return(t(t(x) / (1e-06 * rpkm.sum)))
+}
+
+tpm <- tpm_from_rpkm(fpkm)
+
+# Write out the TPM values for each gene into a table
+write.table(tpm, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Control_LPS-TPM.txt", sep="\t")
+
+
+# Calculate differentially expressed genes
+design<-model.matrix(~0+group)
+y <- estimateGLMCommonDisp(y,design)
+y <- estimateGLMTrendedDisp(y,design)
+y <- estimateGLMTagwiseDisp(y,design)
+fit<-glmFit(y,design)
+lrt.2vs1 <- glmLRT(fit, contrast=c(-1,1))
+
+# To get out FDR
+out <- topTags(lrt.2vs1, n = "Inf")$table
+
+# Write out the results
+write.table(out, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Control_LPS-Ratio.txt", sep="\t")
+
+q()
+n
+
+
+
+### Diabetic_LPS_vs_Diabetic_Unstimulated ###
+# Generate a gene matrix
+# Stranded
+paste SRR14711021_ReadsPerGene.out.tab SRR14711023_ReadsPerGene.out.tab SRR14711033_ReadsPerGene.out.tab SRR14711017_ReadsPerGene.out.tab SRR14711031_ReadsPerGene.out.tab SRR14711025_ReadsPerGene.out.tab SRR14711024_ReadsPerGene.out.tab SRR14711026_ReadsPerGene.out.tab SRR14711032_ReadsPerGene.out.tab SRR14711018_ReadsPerGene.out.tab SRR14711022_ReadsPerGene.out.tab SRR14711034_ReadsPerGene.out.tab | cut -f1,4,8,12,16,20,24,28,32,36,40,44,48 | tail -n +5 > tmpfile
+
+cat tmpfile | sed "s/^gene://" >gene_count_Stranded-Diabetic_LPS_vs_Diabetic_Unstimulated.txt
+
+
+# Run edgeR on R to derive differentially expressed genes
+library (edgeR)
+library(GenomicFeatures)
+
+x <- read.delim("gene_count_Stranded-Diabetic_LPS_vs_Diabetic_Unstimulated.txt", header=F, row.names=1)
+colnames(x)<-c("Diabetic_Unstimulated.1","Diabetic_Unstimulated.2","Diabetic_Unstimulated.3","Diabetic_Unstimulated.4","Diabetic_Unstimulated.5","Diabetic_Unstimulated.6","Diabetic_LPS.1","Diabetic_LPS.2","Diabetic_LPS.3","Diabetic_LPS.4","Diabetic_LPS.5","Diabetic_LPS.6")
+group <- factor(c(1,1,1,1,1,1,2,2,2,2,2,2))
+y <- DGEList(counts=x,group=group)
+y <- calcNormFactors(y)
+
+# Calculate CPM (counts per million) values
+d <-cpm(y)
+
+# Write out the CPM values for each gene into a table
+write.table(d, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Diabetic_Unstimulated-CPM.txt", sep="\t")
+
+# Calculating RPKM
+# https://research.stowers.org/cws/CompGenomics/Projects/edgeR.html
+
+# give the gene lengths
+gtf_file <- "/references/Human/GRCh38.107/Homo_sapiens.GRCh38.107.gtf"
+txdb <- makeTxDbFromGFF(file=gtf_file)
+tx_by_gene <- transcriptsBy(txdb, 'gene')
+geneLengths <- sum(width(reduce(tx_by_gene)))
+
+# using our DGE list object from above
+iv <- match(rownames(x), names(geneLengths))
+
+fpkm <- rpkm(x, geneLengths[iv])
+
+# Write out the RPKM values for each gene into a table
+write.table(fpkm, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Diabetic_Unstimulated-RPKM.txt", sep="\t")
+
+
+# Calculate TPM from RPKM
+# http://luisvalesilva.com/datasimple/rna-seq_units.html
+tpm_from_rpkm <- function(x){
+	rpkm.sum <-colSums(x)
+	return(t(t(x) / (1e-06 * rpkm.sum)))
+}
+
+tpm <- tpm_from_rpkm(fpkm)
+
+# Write out the TPM values for each gene into a table
+write.table(tpm, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Diabetic_Unstimulated-TPM.txt", sep="\t")
+
+
+# Calculate differentially expressed genes
+design<-model.matrix(~0+group)
+y <- estimateGLMCommonDisp(y,design)
+y <- estimateGLMTrendedDisp(y,design)
+y <- estimateGLMTagwiseDisp(y,design)
+fit<-glmFit(y,design)
+lrt.2vs1 <- glmLRT(fit, contrast=c(-1,1))
+
+# To get out FDR
+out <- topTags(lrt.2vs1, n = "Inf")$table
+
+# Write out the results
+write.table(out, "GSE175988-PBMC-Stranded-Diabetic_LPS_vs_Diabetic_Unstimulated-Ratio.txt", sep="\t")
+
+q()
+n
+
+
