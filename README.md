@@ -1,5 +1,5 @@
 # Analysis_of_T2D_Studies
-The pipelines use for RNA-seq data analysis of type II diabetes (T2D) patients compared to the healthy donors.
+The pipelines use for RNA-seq data analysis of type II diabetes (T2D) patients compared to the healthy donors as well as the effects of insulin on cultured cells.
 
 [1] GSE136134: The effect of insulin on mRNA transcription of human pluripotent stem cells (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE136134)
 
